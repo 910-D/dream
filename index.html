@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cabrera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --color-bg: #28272C;
+    --color-line: #C9CBDB;
+    --color-fill: #EAE8EB;
+    --color-border: #3A393E;
+    --color-border-soft: #45444A;
+    --font-body: 'Noto Sans KR', 'Noto Sans JP', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-fill);
+    font-family: var(--font-body);
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 20px 96px;
+  }
+
+  /* ---------- 언어 전환 ---------- */
+
+  .lang-switcher {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-bottom: 40px;
+  }
+
+  .lang-switcher button {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: var(--color-line);
+    background: transparent;
+    border: 0.5px solid var(--color-border-soft);
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+
+  .lang-switcher button.active {
+    color: var(--color-bg);
+    background: var(--color-line);
+    border-color: var(--color-line);
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--color-line);
+    margin: 0 0 16px;
+  }
+
+  /* ---------- 기본 정보 ---------- */
+
+  .profile-section {
+    margin-bottom: 56px;
+  }
+
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 18px;
+    align-items: stretch;
+  }
+
+  .profile-photo {
+    border: 1px dashed var(--color-border-soft);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    min-height: 220px;
+  }
+
+  .profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-placeholder {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-border-soft);
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .info-cell {
+    padding: 10px 14px;
+    border-bottom: 0.5px solid var(--color-border);
+  }
+
+  .info-cell:nth-child(odd) {
+    border-right: 0.5px solid var(--color-border);
+    padding-left: 0;
+  }
+
+  .info-cell:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+
+  .info-cell dt {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-line);
+    margin: 0 0 6px;
+  }
+
+  .info-cell dd {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+    min-height: 1.4em;
+  }
+
+  /* ---------- 상세 정보 ---------- */
+
+  .detail-section {
+    margin-bottom: 56px;
+  }
+
+  .detail-item {
+    padding: 18px 0;
+    border-bottom: 0.5px solid var(--color-border);
+  }
+
+  .detail-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-line);
+    margin: 0 0 8px;
+  }
+
+  .detail-value {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 1.6em;
+  }
+
+  .detail-value--long {
+    line-height: 1.8;
+  }
+
+  .detail-reason {
+    margin-top: 12px;
+    padding-left: 14px;
+    border-left: 2px solid var(--color-border-soft);
+  }
+
+  .detail-reason p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--color-fill);
+    opacity: 0.85;
+    min-height: 1.7em;
+  }
+
+  /* ---------- 목소리 ---------- */
+
+  .voice-block {
+    padding-top: 18px;
+  }
+
+  .voice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .voice-title {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .voice-number {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-line);
+  }
+
+  .voice-subtitle {
+    font-size: 13px;
+  }
+
+  .voice-player {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 0.5px solid var(--color-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+
+  .play-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--color-line);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .play-btn svg {
+    width: 11px;
+    height: 11px;
+    fill: var(--color-fill);
+  }
+
+  .play-btn .icon-pause { display: none; }
+  .play-btn.is-playing .icon-play { display: none; }
+  .play-btn.is-playing .icon-pause { display: block; }
+
+  .waveform {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 20px;
+  }
+
+  .waveform span {
+    width: 2px;
+    background: var(--color-border-soft);
+    border-radius: 1px;
+  }
+
+  .time {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-line);
+    flex-shrink: 0;
+  }
+
+</style>
+</head>
+<body>
+
+<main class="page">
+
+  <div class="lang-switcher">
+    <button data-lang="kr">KR</button>
+    <button data-lang="jp">JP</button>
+    <button data-lang="en">EN</button>
+  </div>
+
+  <section class="profile-section">
+    <p class="section-label" id="basicInfoLabel">BASIC INFO</p>
+    <div class="profile-grid">
+
+      <div class="profile-photo">
+        <!-- 실제 사진 넣을 땐 아래 span을 지우고 <img src="사진경로.jpg" alt="이름"> 로 교체 (사진은 언어와 무관하니 그대로 둬도 됨) -->
+        <span class="photo-placeholder">이미지</span>
+      </div>
+
+      <dl class="info-grid" id="infoGrid"></dl>
+
+    </div>
+  </section>
+
+  <section class="detail-section">
+    <p class="section-label" id="detailLabel">DETAIL</p>
+
+    <div id="detailList"></div>
+
+    <div class="voice-block">
+      <p class="detail-label" id="voiceLabel">목소리</p>
+      <div class="voice-list" id="voiceList"></div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+
+  /* ========================================================
+     1. 라벨 번역 사전
+     ======================================================== */
+  const labels = {
+    kr: { name:'이름', alias:'이명', birthday:'생일', age:'나이', height:'신장', bloodType:'혈액형',
+          origin:'출신지', bounty:'현상금', ability:'능력', affiliation:'소속',
+          favFood:'좋아하는 음식', dislikeFood:'싫어하는 음식', hobby:'취미',
+          firstPerson:'1인칭', nickname:'호칭 및 별명', personality:'성격', reputation:'주위 평판',
+          strength:'강점', weakness:'약점', values:'가치관', voice:'목소리' },
+    jp: { name:'名前', alias:'二つ名', birthday:'誕生日', age:'年齢', height:'身長', bloodType:'血液型',
+          origin:'出身地', bounty:'懸賞金', ability:'能力', affiliation:'所属',
+          favFood:'好きな食べ物', dislikeFood:'嫌いな食べ物', hobby:'趣味',
+          firstPerson:'一人称', nickname:'呼び方・あだ名', personality:'性格', reputation:'周囲の評判',
+          strength:'強み', weakness:'弱み', values:'価値観', voice:'声' },
+    en: { name:'Name', alias:'Alias', birthday:'Birthday', age:'Age', height:'Height', bloodType:'Blood type',
+          origin:'Origin', bounty:'Bounty', ability:'Ability', affiliation:'Affiliation',
+          favFood:'Favorite food', dislikeFood:'Least favorite food', hobby:'Hobby',
+          firstPerson:'First person', nickname:'Title & nickname', personality:'Personality', reputation:'Reputation',
+          strength:'Strength', weakness:'Weakness', values:'Values', voice:'Voice' }
+  };
+
+  /* ========================================================
+     2. 실제 콘텐츠 — 여기에 kr / jp / en 세 언어로 직접 채워넣기
+     ======================================================== */
+
+  const basicInfo = [
+    { key:'name',        kr:'', jp:'', en:'' },
+    { key:'alias',       kr:'', jp:'', en:'' },
+    { key:'birthday',    kr:'', jp:'', en:'' },
+    { key:'age',         kr:'', jp:'', en:'' },
+    { key:'height',      kr:'', jp:'', en:'' },
+    { key:'bloodType',   kr:'', jp:'', en:'' },
+    { key:'origin',      kr:'', jp:'', en:'' },
+    { key:'bounty',      kr:'', jp:'', en:'' },
+    { key:'ability',     kr:'', jp:'', en:'' },
+    { key:'affiliation', kr:'', jp:'', en:'' },
+    { key:'favFood',     kr:'', jp:'', en:'' },
+    { key:'dislikeFood', kr:'', jp:'', en:'' },
+    { key:'hobby',       kr:'', jp:'', en:'' }
+  ];
+
+  const detail = {
+    firstPerson: { kr:'', jp:'', en:'' },
+    nickname:    { value:{kr:'',jp:'',en:''}, reason:{kr:'',jp:'',en:''} },
+    personality: { value:{kr:'',jp:'',en:''}, reason:{kr:'',jp:'',en:''} },
+    reputation:  { kr:'', jp:'', en:'' },
+    strength:    { value:{kr:'',jp:'',en:''}, reason:{kr:'',jp:'',en:''} },
+    weakness:    { value:{kr:'',jp:'',en:''}, reason:{kr:'',jp:'',en:''} },
+    values:      { value:{kr:'',jp:'',en:''}, reason:{kr:'',jp:'',en:''} }
+  };
+
+  const voiceClips = [
+    { number:'01', title:{kr:'',jp:'',en:''}, src:'' },
+    { number:'02', title:{kr:'',jp:'',en:''}, src:'' },
+    { number:'03', title:{kr:'',jp:'',en:''}, src:'' }
+  ];
+
+  /* ========================================================
+     3. 렌더링
+     ======================================================== */
+
+  function waveformBars(count) {
+    let bars = '';
+    for (let i = 0; i < count; i++) {
+      const h = 6 + Math.floor(Math.random() * 12);
+      bars += `<span style="height:${h}px;"></span>`;
+    }
+    return bars;
+  }
+
+  function render(lang) {
+    document.body.setAttribute('lang', lang === 'kr' ? 'ko' : lang === 'jp' ? 'ja' : 'en');
+    document.querySelectorAll('.lang-switcher button').forEach(function (btn) {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    const L = labels[lang];
+
+    document.getElementById('basicInfoLabel').textContent = 'BASIC INFO';
+    document.getElementById('detailLabel').textContent = 'DETAIL';
+    document.getElementById('voiceLabel').textContent = L.voice;
+
+    document.getElementById('infoGrid').innerHTML =
+      basicInfo.map(function (item) {
+        return '<div class="info-cell"><dt>' + L[item.key] + '</dt><dd>' + (item[lang] || '') + '</dd></div>';
+      }).join('') + '<div class="info-cell"></div>';
+
+    document.getElementById('detailList').innerHTML = `
+      <div class="detail-item">
+        <p class="detail-label">${L.firstPerson}</p>
+        <p class="detail-value">${detail.firstPerson[lang] || ''}</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">${L.nickname}</p>
+        <p class="detail-value">${detail.nickname.value[lang] || ''}</p>
+        <div class="detail-reason"><p>${detail.nickname.reason[lang] || ''}</p></div>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">${L.personality}</p>
+        <p class="detail-value">${detail.personality.value[lang] || ''}</p>
+        <div class="detail-reason"><p>${detail.personality.reason[lang] || ''}</p></div>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">${L.reputation}</p>
+        <p class="detail-value detail-value--long">${detail.reputation[lang] || ''}</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">${L.strength}</p>
+        <p class="detail-value">${detail.strength.value[lang] || ''}</p>
+        <div class="detail-reason"><p>${detail.strength.reason[lang] || ''}</p></div>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">${L.weakness}</p>
+        <p class="detail-value">${detail.weakness.value[lang] || ''}</p>
+        <div class="detail-reason"><p>${detail.weakness.reason[lang] || ''}</p></div>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">${L.values}</p>
+        <p class="detail-value">${detail.values.value[lang] || ''}</p>
+        <div class="detail-reason"><p>${detail.values.reason[lang] || ''}</p></div>
+      </div>
+    `;
+
+    document.getElementById('voiceList').innerHTML =
+      voiceClips.map(function (clip) {
+        return `
+          <div class="voice-clip">
+            <div class="voice-title">
+              <span class="voice-number">${clip.number}</span>
+              <span class="voice-subtitle">${clip.title[lang] || ''}</span>
+            </div>
+            <div class="voice-player">
+              <button class="play-btn" aria-label="play">
+                <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </button>
+              <div class="waveform">${waveformBars(12)}</div>
+              <span class="time">0:00 / 0:00</span>
+              <audio class="audio-el" src="${clip.src}"></audio>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+    attachVoicePlayers();
+  }
+
+  function attachVoicePlayers() {
+    document.querySelectorAll('.voice-player').forEach(function (player) {
+      const btn = player.querySelector('.play-btn');
+      const audio = player.querySelector('.audio-el');
+      const timeEl = player.querySelector('.time');
+
+      function formatTime(sec) {
+        if (!isFinite(sec)) return '0:00';
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60).toString().padStart(2, '0');
+        return m + ':' + s;
+      }
+
+      btn.addEventListener('click', function () {
+        if (!audio.getAttribute('src')) return;
+        if (audio.paused) {
+          audio.play();
+          btn.classList.add('is-playing');
+        } else {
+          audio.pause();
+          btn.classList.remove('is-playing');
+        }
+      });
+
+      audio.addEventListener('timeupdate', function () {
+        timeEl.textContent = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration);
+      });
+
+      audio.addEventListener('ended', function () {
+        btn.classList.remove('is-playing');
+      });
+    });
+  }
+
+  /* ========================================================
+     4. 언어 전환 버튼
+     ======================================================== */
+  document.querySelectorAll('.lang-switcher button').forEach(function (btn) {
+    btn.addEventListener('click', function () { render(btn.dataset.lang); });
+  });
+
+  render('kr');
+
+</script>
+
+</body>
+</html>
