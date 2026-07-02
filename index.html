@@ -138,6 +138,37 @@
     min-height: 1.4em;
   }
 
+  .footnote-ref {
+    font-size: 9px;
+    color: var(--color-line);
+    margin-left: 1px;
+  }
+
+  .cell-divider {
+    display: block;
+    height: 0.5px;
+    background: var(--color-border-soft);
+    margin: 6px 0;
+  }
+
+  .footnotes {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
+  .footnotes p {
+    margin: 0 0 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.6;
+    color: var(--color-line);
+    opacity: 0.75;
+  }
+
+  .footnotes p:last-child {
+    margin-bottom: 0;
+  }
+
   /* ---------- 상세 정보 ---------- */
 
   .detail-section {
@@ -324,6 +355,8 @@
       <dl class="info-grid" id="infoGrid"></dl>
 
     </div>
+
+    <div class="footnotes" id="footnotes"></div>
   </section>
 
   <section class="detail-section">
@@ -372,15 +405,15 @@
     { key:'alias',       kr:'모놀로그', jp:'独白', en:'Monologue' },
     { key:'birthday',    kr:'', jp:'', en:'' },
     { key:'age',         kr:'28세(2년 전) → 30세(2년 후)', jp:'28歳（2年前）→30歳（2年後）', en:'28 (2 years ago) → 30 (2 years later)' },
-    { key:'height',      kr:'', jp:'', en:'' },
-    { key:'bloodType',   kr:'', jp:'', en:'' },
-    { key:'origin',      kr:'', jp:'', en:'' },
-    { key:'bounty',      kr:'', jp:'', en:'' },
-    { key:'ability',     kr:'', jp:'', en:'' },
-    { key:'affiliation', kr:'', jp:'', en:'' },
-    { key:'favFood',     kr:'', jp:'', en:'' },
-    { key:'dislikeFood', kr:'', jp:'', en:'' },
-    { key:'hobby',       kr:'', jp:'', en:'' }
+    { key:'height',      kr:'170cm', jp:'170cm', en:'170cm' },
+    { key:'bloodType',   kr:'XF형<sup class="footnote-ref">1)</sup>', jp:'XF型<sup class="footnote-ref">1)</sup>', en:'Type XF<sup class="footnote-ref">1)</sup>' },
+    { key:'origin',      kr:'위대한 항로', jp:'グランドライン', en:'Grand Line' },
+    { key:'bounty',      kr:'6억 5,500만 베리', jp:'6億5,500万ベリー', en:'655,000,000 Berries' },
+    { key:'ability',     kr:'비능력자, 패기(견문색, 무장색)', jp:'非能力者、覇気（見聞色・武装色）', en:'Non-Devil Fruit user, Haki (Observation, Armament)' },
+    { key:'affiliation', kr:'前 바로크 워크스<span class="cell-divider"></span>크로스 길드', jp:'元バロックワークス<span class="cell-divider"></span>クロスギルド', en:'Former Baroque Works<span class="cell-divider"></span>Cross Guild' },
+    { key:'favFood',     kr:'빵, 방울토마토', jp:'パン、プチトマト', en:'Bread, cherry tomatoes' },
+    { key:'dislikeFood', kr:'버섯, 토마토', jp:'きのこ、トマト', en:'Mushrooms, tomatoes' },
+    { key:'hobby',       kr:'독서', jp:'読書', en:'Reading' }
   ];
 
   const detail = {
@@ -397,6 +430,12 @@
     { number:'01', title:{kr:'',jp:'',en:''}, src:'' },
     { number:'02', title:{kr:'',jp:'',en:''}, src:'' },
     { number:'03', title:{kr:'',jp:'',en:''}, src:'' }
+  ];
+
+  // 기본 정보 값 안에 <sup class="footnote-ref">1)</sup> 처럼 번호를 넣으면
+  // 이 배열의 같은 번호(num) 각주가 정보 그리드 아래에 자동으로 나열됨
+  const footnotes = [
+    { num:'1)', kr:'AB형', jp:'AB型', en:'Type AB' }
   ];
 
   /* ========================================================
@@ -428,6 +467,11 @@
       basicInfo.map(function (item) {
         return '<div class="info-cell"><dt>' + L[item.key] + '</dt><dd>' + (item[lang] || '') + '</dd></div>';
       }).join('') + '<div class="info-cell"></div>';
+
+    document.getElementById('footnotes').innerHTML =
+      footnotes.map(function (fn) {
+        return '<p>' + fn.num + ' ' + (fn[lang] || '') + '</p>';
+      }).join('');
 
     document.getElementById('detailList').innerHTML = `
       <div class="detail-item">
