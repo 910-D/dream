@@ -265,6 +265,41 @@
     flex-shrink: 0;
   }
 
+  /* ---------- 모바일 반응형 ---------- */
+
+  @media (max-width: 600px) {
+
+    .page {
+      padding: 20px 16px 72px;
+    }
+
+    .profile-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .profile-photo {
+      min-height: 0;
+      aspect-ratio: 16 / 9;
+    }
+
+    .info-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .detail-value {
+      font-size: 16px;
+    }
+
+    .voice-player {
+      padding: 10px 12px;
+    }
+
+    .waveform span {
+      width: 2.5px;
+    }
+
+  }
+
 </style>
 </head>
 <body>
@@ -336,7 +371,7 @@
     { key:'name',        kr:'카브레라', jp:'カブレラ', en:'Cabrera' },
     { key:'alias',       kr:'모놀로그', jp:'独白', en:'Monologue' },
     { key:'birthday',    kr:'', jp:'', en:'' },
-    { key:'age',         kr:'28세(2년 전) → 30세(2년 후)', jp:'28歳（2年前）→30歳（2年後)', en:'28 (2 years ago) → 30 (2 years later)' },
+    { key:'age',         kr:'28세(2년 전) → 30세(2년 후)', jp:'28歳（2年前）→30歳（2年後）', en:'28 (2 years ago) → 30 (2 years later)' },
     { key:'height',      kr:'', jp:'', en:'' },
     { key:'bloodType',   kr:'', jp:'', en:'' },
     { key:'origin',      kr:'', jp:'', en:'' },
