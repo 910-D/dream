@@ -219,6 +219,20 @@
     padding-top: 18px;
   }
 
+  .voice-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0;
+  }
+
+  .voice-credit {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-line);
+    opacity: 0.7;
+  }
+
   .voice-list {
     display: flex;
     flex-direction: column;
@@ -296,6 +310,205 @@
     flex-shrink: 0;
   }
 
+  /* ---------- 페이지 전환 ---------- */
+
+  .app-page[hidden] {
+    display: none;
+  }
+
+  .page-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #1F1E22;
+    border-top: 0.5px solid var(--color-border-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: 14px 20px;
+    z-index: 10;
+  }
+
+  .page-nav-btn {
+    background: none;
+    border: none;
+    color: var(--color-line);
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px 6px;
+  }
+
+  .page-nav-btn:disabled {
+    color: var(--color-border-soft);
+    cursor: default;
+  }
+
+  .page-nav-indicator {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-line);
+    opacity: 0.7;
+    min-width: 96px;
+    text-align: center;
+  }
+
+  /* ---------- 과거(타임라인) 페이지 ---------- */
+
+  .past-section {
+    padding-top: 0;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 26px;
+    margin-top: 20px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    bottom: 6px;
+    width: 1px;
+    background: var(--color-border-soft);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-bottom: 32px;
+  }
+
+  .timeline-item:last-child {
+    padding-bottom: 0;
+  }
+
+  .timeline-marker {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: -26px;
+    width: calc(100% + 26px);
+    background: none;
+    border: none;
+    padding: 4px 0;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+  }
+
+  .timeline-chevron {
+    margin-left: auto;
+    font-size: 10px;
+    color: var(--color-line);
+    flex-shrink: 0;
+  }
+
+  .timeline-dot {
+    flex-shrink: 0;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-line);
+  }
+
+  .timeline-dot--present {
+    width: 13px;
+    height: 13px;
+    background: var(--color-line);
+  }
+
+  .timeline-dot--future {
+    border-style: dashed;
+    border-color: var(--color-border-soft);
+  }
+
+  .timeline-label {
+    font-size: 11px;
+    color: var(--color-line);
+    font-family: var(--font-mono);
+    line-height: 1;
+  }
+
+  .timeline-label--present {
+    color: var(--color-fill);
+    font-weight: 600;
+  }
+
+  .timeline-label--future {
+    color: var(--color-line);
+  }
+
+  .timeline-body {
+    margin-top: 9px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .timeline-body p {
+    margin: 0 0 12px;
+  }
+
+  .timeline-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .scene-break {
+    height: 1px;
+    margin: 14px 0;
+  }
+
+  .quote-line {
+    font-style: italic;
+    text-align: center;
+    color: var(--color-line);
+    margin: 4px 0 !important;
+  }
+
+  .side-story {
+    margin-top: 12px;
+    border-top: 0.5px solid var(--color-border);
+  }
+
+  .side-story-toggle {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 10px 0;
+    cursor: pointer;
+  }
+
+  .side-story-number {
+    font-size: 10px;
+    color: var(--color-line);
+    font-family: var(--font-mono);
+    opacity: 0.8;
+  }
+
+  .side-story-toggle.is-open .side-story-number {
+    color: var(--color-fill);
+    opacity: 1;
+  }
+
+  .side-story-chevron {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--color-line);
+  }
+
+  .side-story-body {
+    padding: 0 0 6px;
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.85;
+  }
+
   /* ---------- 모바일 반응형 ---------- */
 
   @media (max-width: 600px) {
@@ -343,35 +556,58 @@
     <button data-lang="en">EN</button>
   </div>
 
-  <section class="profile-section">
-    <p class="section-label" id="basicInfoLabel">BASIC INFO</p>
-    <div class="profile-grid">
+  <div class="app-page" id="pageProfile">
 
-      <div class="profile-photo">
-        <!-- 실제 사진 넣을 땐 아래 span을 지우고 <img src="사진경로.jpg" alt="이름"> 로 교체 (사진은 언어와 무관하니 그대로 둬도 됨) -->
-        <span class="photo-placeholder">이미지</span>
+    <section class="profile-section">
+      <p class="section-label" id="basicInfoLabel">BASIC INFO</p>
+      <div class="profile-grid">
+
+        <div class="profile-photo">
+          <!-- 실제 사진 넣을 땐 아래 span을 지우고 <img src="사진경로.jpg" alt="이름"> 로 교체 (사진은 언어와 무관하니 그대로 둬도 됨) -->
+          <span class="photo-placeholder">이미지</span>
+        </div>
+
+        <dl class="info-grid" id="infoGrid"></dl>
+
       </div>
 
-      <dl class="info-grid" id="infoGrid"></dl>
+      <div class="footnotes" id="footnotes"></div>
+    </section>
 
-    </div>
+    <section class="detail-section">
+      <p class="section-label" id="detailLabel">DETAIL</p>
 
-    <div class="footnotes" id="footnotes"></div>
-  </section>
+      <div id="detailList"></div>
 
-  <section class="detail-section">
-    <p class="section-label" id="detailLabel">DETAIL</p>
+      <div class="voice-block">
+        <div class="voice-header">
+          <p class="detail-label" id="voiceLabel">목소리</p>
+          <span class="voice-credit">&copy; 윻 님</span>
+        </div>
+        <div class="voice-list" id="voiceList"></div>
+      </div>
 
-    <div id="detailList"></div>
+    </section>
 
-    <div class="voice-block">
-      <p class="detail-label" id="voiceLabel">목소리</p>
-      <div class="voice-list" id="voiceList"></div>
-    </div>
+  </div>
 
-  </section>
+  <div class="app-page" id="pagePast" hidden>
+
+    <section class="past-section">
+      <p class="section-label" id="pastLabel">PAST</p>
+
+      <div class="timeline" id="timeline"></div>
+    </section>
+
+  </div>
 
 </main>
+
+<nav class="page-nav">
+  <button class="page-nav-btn" id="prevPageBtn" aria-label="prev">◀</button>
+  <span class="page-nav-indicator" id="pageIndicator"></span>
+  <button class="page-nav-btn" id="nextPageBtn" aria-label="next">▶</button>
+</nav>
 
 <script>
 
@@ -493,6 +729,211 @@
     { num:'1)', kr:'AB형', jp:'AB型', en:'Type AB' }
   ];
 
+  // PAST 페이지 - 타임라인. dotStyle: 'past' | 'present' | 'future'
+  // sideStory를 채워둔 항목만 본문 바로 아래에 번외 이야기 토글 박스가 함께 나옴
+  const timelinePhases = [
+    {
+      dotStyle: 'past',
+      label: { kr:'20년 전 · 10세', jp:'20年前・10歳', en:'20 years ago · 10' },
+      body:  {
+        kr: `<p>위대한 항로의 어느 섬, 사계절 내내 서늘한 공기가 감돌던 그 섬에서 그녀는 남부러울 것 없는 어린 시절을 보냈다.</p>
+<p>그녀의 부모는 섬 내에서 모르는 이가 없을 정도로 명성이 자자한 유명 배우들이었으며, 그 덕에 가정환경은 매우 유복했다.</p>
+<p>화려한 극장 분장실의 냄새, 무대 위를 비추던 조명, 그리고 관객들의 아낌없는 박수갈채는 어린 시절의 그녀에게 너무나 당연하고 평화로운 일상이었다.</p>
+<div class="scene-break"></div>
+<p>본래 그녀는 조용한 아이였다.</p>
+<p>부모의 아래에서 무언가를 스스로 결정하기보다는 부모의 품에 의존하는 성향이 강했다.</p>
+<p>대기실 구석에 앉아 부모가 대사를 연습하는 모습을 가만히 지켜보거나, 두 사람의 손을 잡고 섬의 한적한 모래사장을 거니는 것이 그녀에게 세상의 전부였다.</p>
+<div class="scene-break"></div>
+<p>그러나 이 섬에는 특이한 특징이 하나 있었다.</p>
+<p>섬에 내리는 비는 일반적인 빗물과 달리 극도의 한기를 품고 있었다.</p>
+<p>우산이나 방한 장비 없이 그 차가운 비에 무방비하게 노출될 경우, 불과 몇 시간 만에 체온을 빼앗겨 저체온증으로 사망에 이를 정도로 혹독한 기후였다.</p>
+<div class="scene-break"></div>
+<p>섬사람들은 늘 하늘을 살폈고, 비가 내리는 날이면 서둘러 지붕 아래로 몸을 숨겼다.</p>
+<p>어린 시절의 그녀 역시 비가 내리는 날이면 창밖으로 쏟아지는 서늘한 빗소리를 들으며 부모의 품에 파고들곤 했다.</p>
+<p>따뜻한 벽난로 앞, 자신을 감싸 안아주는 부모의 온기 덕분에 그녀는 그 차가운 비가 얼마나 많은 생명을 앗아가는지 미처 실감하지 못하고 있었다.</p>
+<div class="scene-break"></div>
+<p>그녀가 10세가 되던 해, 평화롭던 섬에 재앙이 들이닥쳤다.</p>
+<p>하늘이 뚫린 듯 엄청난 양의 폭우가 쏟아지기 시작했고, 그 비는 섬의 모든 것을 얼려버릴 만큼 극도로 차가웠다.</p>
+<p>순식간에 불어난 물은 섬을 집어삼키는 대홍수로 이어졌고, 피할 곳을 찾지 못한 채 빗물에 노출된 이들은 한기 속에서 쓰러져 갔다.</p>
+<div class="scene-break"></div>
+<p>대홍수의 혼란 속에서 그녀의 집도, 극장도 전부 물에 잠겼다.</p>
+<p>피할 수 없는 한기 속에서 부모는 저체온증으로 서서히 죽어갔고, 의존할 곳을 잃은 10세의 그녀는 공포에 질려 눈물을 흘렸다.</p>
+<p>숨을 거두기 직전, 부모는 비참하게 무너져 내리는 딸의 손을 꼭 쥐며 마지막 유언을 남겼다.</p>
+<div class="scene-break"></div>
+<p class="quote-line">"카브레라, 약한 모습을 보이지 말고…… 세상 앞에 당당하고 떳떳하게 살아남아야 한다."</p>
+<div class="scene-break"></div>
+<p>결국 섬은 완전히 잠겨 지도에서 흔적도 없이 사라졌고, 그녀는 차가운 빗소리와 부모의 시신만을 남긴 채 홀로 살아남았다.</p>`,
+        jp: `<p>グランドラインのとある島、四季を通じて肌寒い空気が漂うその島で、彼女は何不自由ない幼少期を過ごした。</p>
+<p>彼女の両親は島内で知らぬ者がいないほど名声を博した有名な俳優たちであり、そのおかげで家庭環境は非常に裕福だった。</p>
+<p>華やかな劇場の楽屋の匂い、舞台を照らす照明、そして観客たちの惜しみない拍手喝采は、幼い頃の彼女にとってあまりにも当然で平和な日常だった。</p>
+<div class="scene-break"></div>
+<p>本来、彼女は物静かな子どもだった。</p>
+<p>両親の下で何かを自分で決めるよりも、両親の懐に頼る傾向が強かった。</p>
+<p>楽屋の隅に座って両親が台詞を練習する姿をじっと見つめたり、二人の手を握って島ののどかな砂浜を歩くことが、彼女にとって世界のすべてだった。</p>
+<div class="scene-break"></div>
+<p>しかし、この島には一つ、奇妙な特徴があった。</p>
+<p>島に降る雨は、一般的な雨水とは違い、極度の冷気を帯びていた。</p>
+<p>傘や防寒具もなくその冷たい雨に無防備にさらされた場合、わずか数時間で体温を奪われ、低体温症で死に至るほど過酷な気候だった。</p>
+<div class="scene-break"></div>
+<p>島の人々は常に空を気にかけ、雨が降る日には急いで屋根の下に身を隠した。</p>
+<p>幼い頃の彼女もまた、雨の降る日には窓の外から響く冷たい雨音を聞きながら、両親の懐に潜り込んだものだった。</p>
+<p>暖かい暖炉の前、自分を抱きしめてくれる両親のぬくもりのおかげで、彼女はその冷たい雨がどれほど多くの命を奪っているのか、実感できずにいた。</p>
+<div class="scene-break"></div>
+<p>彼女が10歳になった年、平和だった島に災厄が襲いかかった。</p>
+<p>空に穴が開いたかのように凄まじい量の豪雨が降り注ぎ始め、その雨は島のすべてを凍りつかせるほど極度に冷たかった。</p>
+<p>瞬く間に増水した水は島を呑み込む大洪水へとつながり、逃げ場を見つけられないまま雨にさらされた者たちは、冷気の中で次々と倒れていった。</p>
+<div class="scene-break"></div>
+<p>大洪水の混乱の中で、彼女の家も、劇場も、すべてが水に沈んだ。</p>
+<p>逃れようのない冷気の中で両親は低体温症で徐々に死んでいき、頼る場所を失った10歳の彼女は恐怖にすくみ、涙を流した。</p>
+<p>息を引き取る直前、両親は無残に崩れ落ちる娘の手をしっかりと握り、最後の遺言を残した。</p>
+<div class="scene-break"></div>
+<p class="quote-line">「カブレラ、弱い姿を見せず……世界の前で堂々と、恥じることなく生き延びるのだ。」</p>
+<div class="scene-break"></div>
+<p>結局、島は完全に沈み、地図から跡形もなく消え去り、彼女は冷たい雨音と両親の亡骸だけを残して、たった一人生き残った。</p>`,
+        en: `<p>On an island in the Grand Line, one where a cool air lingered through all four seasons, she spent a childhood lacking for nothing.</p>
+<p>Her parents were famous actors so renowned that no one on the island didn't know them, and thanks to that, her home was very well off.</p>
+<p>The scent of the glamorous theater dressing room, the lights that illuminated the stage, and the audience's unstinting applause were, to her as a child, an utterly ordinary and peaceful part of everyday life.</p>
+<div class="scene-break"></div>
+<p>By nature, she had been a quiet child.</p>
+<p>Rather than deciding things for herself, she strongly tended to depend on her parents, resting in their embrace.</p>
+<p>Sitting in a corner of the dressing room quietly watching her parents rehearse their lines, or walking the island's quiet sandy shore holding both their hands — that was her entire world.</p>
+<div class="scene-break"></div>
+<p>But this island had one peculiar characteristic.</p>
+<p>The rain that fell on the island, unlike ordinary rainwater, carried an extreme chill.</p>
+<p>It was a climate so severe that anyone left unprotected in that cold rain, without an umbrella or cold-weather gear, could lose body heat and die of hypothermia within just a few hours.</p>
+<div class="scene-break"></div>
+<p>The islanders were always watching the sky, and on rainy days they hurried to take shelter under a roof.</p>
+<p>As a child, she too, on rainy days, would burrow into her parents' arms as she listened to the cold sound of rain pouring outside the window.</p>
+<p>In front of the warm fireplace, wrapped in the warmth of the parents who held her close, she had no real sense of just how many lives that cold rain was taking.</p>
+<div class="scene-break"></div>
+<p>The year she turned ten, disaster struck the once-peaceful island.</p>
+<p>As if the sky itself had torn open, torrential rain began pouring down in staggering amounts, so extremely cold it seemed capable of freezing everything on the island.</p>
+<p>The rapidly rising water became a great flood that swallowed the island whole, and those who found no shelter and were left exposed to the rain collapsed one after another in the cold.</p>
+<div class="scene-break"></div>
+<p>In the chaos of the great flood, her home and the theater alike were submerged completely.</p>
+<p>In the inescapable cold, her parents slowly died of hypothermia, and the ten-year-old girl, having lost the one thing she depended on, wept in terror.</p>
+<p>Just before they breathed their last, her parents tightly gripped the hand of their daughter, who was falling apart in grief, and left her their final words.</p>
+<div class="scene-break"></div>
+<p class="quote-line">"Cabrera, never let them see you weak... You must survive, standing tall and unashamed before the world."</p>
+<div class="scene-break"></div>
+<p>In the end, the island sank completely and vanished from the map without a trace, and she alone survived, left with nothing but the sound of cold rain and her parents' bodies.</p>`
+      }
+    },
+    {
+      dotStyle: 'past',
+      label: { kr:'11년 전 · 19세', jp:'11年前・19歳', en:'11 years ago · 19' },
+      body:  {
+        kr: `<p>10세 당시 물에 잠긴 섬에서 가까스로 해군에 의해 구조되었으나, 그녀의 홀로서기는 순탄치 않았다.</p>
+<p>구조 이후 자신을 보호해 주던 일부 해군 인물들의 고압적이고 거친 태도를 겪으며, 그녀는 깊은 반감을 느끼고 결국 스스로 그들을 떠났다.</p>
+<p>정의의 이름 아래 억압하는 집단을 목격한 경험은 그녀에게 깊은 불신을 남겼고, 이후에 그녀는 조직에 속하는 것을 거부하며 단독으로 활동하는 삶을 살게 된다.</p>
+<div class="scene-break"></div>
+<p>그렇게 위대한 항로를 떠돌던 중, 그녀는 약 19세 무렵에 한 분단된 섬에 정착했다.</p>
+<p>하나의 섬 안에 두 개의 국가가 긴장 상태를 유지하고 있던 그곳에서, 그녀는 한 국가의 민간인으로 살아가며 오랜만에 안정적인 생활을 시작했다.</p>
+<p>그 과정에서 마음을 터놓을 수 있는 소중한 친구를 사귀게 되었는데, 얼마 후 전쟁의 위협이 커지자 친구는 자국을 지키기 위해 군에 입단했다.</p>
+<p>친구를 소중히 여겨 혼자 둘 수 없었던 그녀 역시 평소의 소속감에 대한 거부 성향마저 접어둔 채 군에 동참하게 된다.</p>
+<div class="scene-break"></div>
+<p>군 내부에서 그녀는 타고난 분석 능력과 뛰어난 상황 대처 능력을 인정받아 소수 부대의 지휘를 맡게 되었다.</p>
+<p>부대원들과 생사를 함께하며 유대감을 쌓아가는 동안, 그녀는 부모의 죽음 이후 단 한 번도 보여주지 않았던 모습을 드러냈다.</p>
+<p>스스로를 감추기 위한 계산된 '연기'가 아닌, 주변 사람들과 스스럼없이 어울리며 짓는 비교적 자연스럽고 밝은 '진짜 미소'를 짓게 된 시기였다.</p>
+<div class="scene-break"></div>
+<p>그러나 평화는 오래가지 못했고, 두 국가 사이에 본격적인 전쟁이 시작되면서 상황은 걷잡을 수 없이 악화되었다.</p>
+<p>치열한 전투 속에서 상황을 분석한 그녀는 이미 기울어버린 전력 차이를 보며 자국의 패배를 확신했다.</p>
+<p>그녀는 승리보다 자신이 그토록 아끼던 부대원들의 생존을 최우선으로 삼았고, 전장에서 안전하게 탈출하는 것을 전제로 한 치밀한 작전을 세워 부대에 지시를 내렸다.</p>
+<div class="scene-break"></div>
+<p>하지만 그녀가 내린 결정과 방향성은 결과적으로 최악의 상황을 불러오는 치명적인 판단이 되고 말았다.</p>
+<p>적들의 동태를 완전히 벗어났다고 믿었던 대피로는 순식간에 적으로 가득 찬 곳으로 변했고, 그녀의 지휘를 철저히 믿고 따랐던 부대원들은 단 한 명도 살아남지 못한 채 전원 전사하는 참혹한 결과를 보였다.</p>
+<p>자신이 지키고자 했던 친구와 부대원들이 제 눈앞에서 차갑게 식어가는 모습을 보며 그녀는 완전히 무너져 내렸다.</p>
+<p>결국 그녀가 속했던 국가마저 전쟁에서 참패하여 역사 속으로 멸망해 사라졌고, 그녀는 또다시 홀로 살아남았다.</p>`,
+        jp: `<p>10歳の当時、水に沈んだ島から辛うじて海軍によって救助されたが、彼女の独り立ちは平坦なものではなかった。</p>
+<p>救助された後、自分を保護してくれていた一部の海軍の人物たちの高圧的で荒々しい態度を経験し、彼女は深い反感を覚え、結局は自ら彼らのもとを去った。</p>
+<p>正義の名の下に抑圧する集団を目の当たりにした経験は彼女に深い不信を残し、以来彼女は組織に属することを拒み、単独で活動する人生を歩むようになる。</p>
+<div class="scene-break"></div>
+<p>そうしてグランドラインを流浪する中、彼女は19歳ほどの頃、ある分断された島に落ち着いた。</p>
+<p>一つの島の中で二つの国家が緊張状態を保っていたその地で、彼女はある一国の民間人として暮らし、久しぶりに安定した生活を始めた。</p>
+<p>その過程で心を開いて話せる大切な友人ができたが、しばらくして戦争の脅威が高まると、友人は自国を守るために軍に入隊した。</p>
+<p>友人を大切に思い一人にしておけなかった彼女もまた、普段の所属への拒否感すら押し殺し、軍に加わることになる。</p>
+<div class="scene-break"></div>
+<p>軍の中で彼女は生まれ持った分析力と優れた状況対応力を認められ、少数部隊の指揮を任されることとなった。</p>
+<p>部隊員たちと生死を共にしながら絆を築いていく中で、彼女は両親の死以来ただの一度も見せたことのなかった姿を見せるようになった。</p>
+<p>自分を隠すための計算された「演技」ではなく、周囲の人々と気兼ねなく打ち解けながら見せる、比較的自然で明るい「本当の笑顔」を見せるようになった時期だった。</p>
+<div class="scene-break"></div>
+<p>しかし平和は長く続かず、二国間で本格的な戦争が始まると、状況は手のつけられないほど悪化していった。</p>
+<p>激しい戦闘の中で状況を分析した彼女は、すでに傾いてしまった戦力差を見て、自国の敗北を確信した。</p>
+<p>彼女は勝利よりも、自分がそれほどまでに大切にしていた部隊員たちの生存を最優先とし、戦場から安全に離脱することを前提とした綿密な作戦を立てて部隊に指示を出した。</p>
+<div class="scene-break"></div>
+<p>しかし彼女が下した決定と方向性は、結果的に最悪の事態を招く致命的な判断となってしまった。</p>
+<p>敵の動きから完全に外れたと信じていた退避路は瞬く間に敵で埋め尽くされた場所へと変わり、彼女の指揮を徹底して信じ従っていた部隊員たちは、ただの一人も生き残ることなく全員戦死するという惨たらしい結果となった。</p>
+<p>自分が守ろうとしていた友人と部隊員たちが目の前で冷たくなっていく姿を見て、彼女は完全に崩れ落ちた。</p>
+<p>結局、彼女が属していた国家すらも戦争に惨敗し、歴史の中へと滅び去り、彼女はまたしても一人生き残った。</p>`,
+        en: `<p>At the age of ten, she was barely rescued from the submerged island by the Navy, but her path to standing on her own was far from smooth.</p>
+<p>After being rescued, she experienced the overbearing and rough treatment of some of the Navy personnel who were supposed to be protecting her, and feeling deep resentment, she eventually left them of her own accord.</p>
+<p>The experience of witnessing a group that oppressed others in the name of justice left her with a deep distrust, and from then on she refused to belong to any organization, choosing to live and act alone.</p>
+<div class="scene-break"></div>
+<p>As she wandered the Grand Line in this way, at around the age of 19 she settled on a divided island.</p>
+<p>There, on an island where two nations maintained an uneasy tension within a single landmass, she lived as a civilian of one nation and, for the first time in a long while, began a stable life.</p>
+<p>In the process, she made a precious friend she could open her heart to, but before long, as the threat of war grew, that friend enlisted in the military to protect their country.</p>
+<p>Cherishing her friend and unable to leave her alone, she too set aside her usual aversion to belonging anywhere and joined the military.</p>
+<div class="scene-break"></div>
+<p>Within the military, her innate analytical skill and outstanding ability to handle situations were recognized, and she was entrusted with command of a small unit.</p>
+<p>As she built bonds with her unit, sharing life and death together, she began to show a side of herself she had never once revealed since her parents' death.</p>
+<p>It was a period in which she came to show, not a calculated "performance" meant to hide herself, but a comparatively natural and bright "real smile," born of mingling freely with those around her.</p>
+<div class="scene-break"></div>
+<p>But the peace did not last, and once full-scale war broke out between the two nations, the situation deteriorated beyond control.</p>
+<p>Analyzing the situation amid fierce fighting, she saw the balance of power had already tipped decisively and became certain her nation would lose.</p>
+<p>Placing the survival of the unit members she cherished so deeply above victory itself, she devised a meticulous plan premised on a safe withdrawal from the battlefield and gave the order to her unit.</p>
+<div class="scene-break"></div>
+<p>But the decision and direction she chose ultimately turned out to be a fatal misjudgment that brought about the worst possible outcome.</p>
+<p>The escape route she had believed was completely clear of enemy movement turned, in an instant, into a place swarming with the enemy, and the unit members who had trusted and followed her command without reservation met a horrific end — every single one of them killed, with not one survivor.</p>
+<p>Watching the friend and the unit members she had tried to protect grow cold before her very eyes, she completely broke down.</p>
+<p>In the end, even the nation she belonged to suffered a crushing defeat in the war and vanished into history, and once again, she alone survived.</p>`
+      }
+    },
+    {
+      dotStyle: 'past',
+      label: { kr:'10년 전 · 20세', jp:'10年前・20歳', en:'10 years ago · 20' },
+      body:  { kr:'', jp:'', en:'' }
+    },
+    {
+      dotStyle: 'past',
+      label: { kr:'2년 전 · 28세', jp:'2年前・28歳', en:'2 years ago · 28' },
+      body:  { kr:'', jp:'', en:'' }
+    },
+    {
+      dotStyle: 'present',
+      label: { kr:'현재 · 30세', jp:'現在・30歳', en:'Present · 30' },
+      body:  { kr:'', jp:'', en:'' },
+      sideStory: { kr:'', jp:'', en:'' }
+    },
+    {
+      dotStyle: 'future',
+      label: { kr:'레벨리', jp:'レヴェリー', en:'Reverie' },
+      body:  { kr:'', jp:'', en:'' }
+    },
+    {
+      dotStyle: 'future',
+      label: { kr:'와노쿠니', jp:'ワノ国', en:'Wano Country' },
+      body:  { kr:'', jp:'', en:'' }
+    },
+    {
+      dotStyle: 'future',
+      label: { kr:'에그헤드', jp:'エッグヘッド', en:'Egghead' },
+      body:  { kr:'', jp:'', en:'' }
+    }
+  ];
+
+  // 어떤 항목의 번외 스토리가 펼쳐져 있는지 (타임라인 인덱스 기준). 언어를 바꿔도 열림 상태 유지됨
+  const sideStoryOpenState = {};
+
+  // 어떤 타임라인 항목의 본문이 펼쳐져 있는지 (기본은 전부 닫힘 - 스크롤이 너무 길어지지 않게)
+  const timelineOpenState = {};
+
+  // 현재 보고 있는 페이지
+  const appPages = [
+    { id:'pageProfile', labelKey:'PROFILE' },
+    { id:'pagePast',    labelKey:'PAST' }
+  ];
+  let currentPageIndex = 0;
+
   /* ========================================================
      3. 렌더링
      ======================================================== */
@@ -506,7 +947,87 @@
     return bars;
   }
 
+  function renderPast(lang) {
+    document.getElementById('pastLabel').textContent = 'PAST';
+
+    let sideStoryCounter = 0;
+
+    document.getElementById('timeline').innerHTML = timelinePhases.map(function (phase, i) {
+      const isItemOpen = !!timelineOpenState[i];
+      const isSideOpen = !!sideStoryOpenState[i];
+      const hasSideStory = phase.sideStory;
+
+      let sideStoryHTML = '';
+      if (hasSideStory) {
+        sideStoryCounter++;
+        sideStoryHTML = `
+          <div class="side-story">
+            <button class="side-story-toggle ${isSideOpen ? 'is-open' : ''}" data-index="${i}">
+              <span class="side-story-number">${String(sideStoryCounter).padStart(2, '0')}</span>
+              <span class="side-story-chevron">${isSideOpen ? '▴' : '▾'}</span>
+            </button>
+            ${isSideOpen ? `<div class="side-story-body">${phase.sideStory[lang] || ''}</div>` : ''}
+          </div>
+        `;
+      }
+
+      const bodyHTML = isItemOpen ? `
+        <div class="timeline-body">${phase.body[lang] || ''}</div>
+        ${sideStoryHTML}
+      ` : '';
+
+      return `
+        <div class="timeline-item">
+          <button class="timeline-marker" data-timeline-index="${i}">
+            <span class="timeline-dot timeline-dot--${phase.dotStyle}"></span>
+            <span class="timeline-label timeline-label--${phase.dotStyle}">${phase.label[lang] || ''}</span>
+            <span class="timeline-chevron">${isItemOpen ? '▴' : '▾'}</span>
+          </button>
+          ${bodyHTML}
+        </div>
+      `;
+    }).join('');
+
+    document.querySelectorAll('.timeline-marker').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const i = Number(btn.dataset.timelineIndex);
+        timelineOpenState[i] = !timelineOpenState[i];
+        renderPast(currentLang);
+      });
+    });
+
+    document.querySelectorAll('.side-story-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const i = Number(btn.dataset.index);
+        sideStoryOpenState[i] = !sideStoryOpenState[i];
+        renderPast(currentLang);
+      });
+    });
+  }
+
+  function updatePageNav() {
+    document.getElementById('pageIndicator').textContent =
+      appPages[currentPageIndex].labelKey + ' · ' + (currentPageIndex + 1) + ' / ' + appPages.length;
+    document.getElementById('prevPageBtn').disabled = currentPageIndex === 0;
+    document.getElementById('nextPageBtn').disabled = currentPageIndex === appPages.length - 1;
+
+    appPages.forEach(function (p, i) {
+      document.getElementById(p.id).hidden = i !== currentPageIndex;
+    });
+  }
+
+  document.getElementById('prevPageBtn').addEventListener('click', function () {
+    if (currentPageIndex > 0) { currentPageIndex--; updatePageNav(); window.scrollTo(0, 0); }
+  });
+  document.getElementById('nextPageBtn').addEventListener('click', function () {
+    if (currentPageIndex < appPages.length - 1) { currentPageIndex++; updatePageNav(); window.scrollTo(0, 0); }
+  });
+
+  let currentLang = 'kr';
+
   function render(lang) {
+    currentLang = lang;
     document.body.setAttribute('lang', lang === 'kr' ? 'ko' : lang === 'jp' ? 'ja' : 'en');
     document.querySelectorAll('.lang-switcher button').forEach(function (btn) {
       btn.classList.toggle('active', btn.dataset.lang === lang);
@@ -586,6 +1107,7 @@
       }).join('');
 
     attachVoicePlayers();
+    renderPast(lang);
   }
 
   function attachVoicePlayers() {
@@ -630,6 +1152,7 @@
   });
 
   render('kr');
+  updatePageNav();
 
 </script>
 
