@@ -355,6 +355,12 @@
     text-align: center;
   }
 
+  /* ---------- 외모 페이지 ---------- */
+
+  .appearance-section {
+    padding-top: 0;
+  }
+
   /* ---------- 과거(타임라인) 페이지 ---------- */
 
   .past-section {
@@ -591,10 +597,20 @@
 
   </div>
 
+  <div class="app-page" id="pageAppearance" hidden>
+
+    <section class="appearance-section">
+      <p class="section-label" id="appearanceLabel">APPEARANCE</p>
+
+      <div id="appearanceList"></div>
+    </section>
+
+  </div>
+
   <div class="app-page" id="pagePast" hidden>
 
     <section class="past-section">
-      <p class="section-label" id="pastLabel">PAST</p>
+      <p class="section-label" id="pastLabel">STORY</p>
 
       <div class="timeline" id="timeline"></div>
     </section>
@@ -1163,16 +1179,78 @@
   // 어떤 타임라인 항목의 본문이 펼쳐져 있는지 (기본은 전부 닫힘 - 스크롤이 너무 길어지지 않게)
   const timelineOpenState = {};
 
+  // 외모 페이지 - 항목별로 kr/jp/en 값만 채우면 됨
+  const swatch = function (hex) {
+    return `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${hex};border:1px solid var(--color-border-soft);vertical-align:middle;margin-right:6px;"></span>${hex}`;
+  };
+
+  const appearanceFields = [
+    {
+      label:{ kr:'종족', jp:'種族', en:'Species' },
+      value:{ kr:'인간', jp:'人間', en:'Human' }
+    },
+    {
+      label:{ kr:'피부색', jp:'肌の色', en:'Skin tone' },
+      value:{ kr: swatch('#FFF6F1'), jp: swatch('#FFF6F1'), en: swatch('#FFF6F1') }
+    },
+    {
+      label:{ kr:'눈의 모양 및 색상', jp:'目の形と色', en:'Eye shape & color' },
+      value:{
+        kr: `눈매가 날카롭고, 전체적으로 눈꼬리가 양옆으로 길게 뻗어 있다.<br>${swatch('#C9CBD8')}`,
+        jp: `目つきが鋭く、全体的に目尻が左右に長く伸びている。<br>${swatch('#C9CBD8')}`,
+        en: `Her eyes are sharp, with corners that stretch noticeably outward on both sides.<br>${swatch('#C9CBD8')}`
+      }
+    },
+    {
+      label:{ kr:'머리스타일 및 머리색', jp:'髪型と髪色', en:'Hairstyle & hair color' },
+      value:{
+        kr: `눈 앞쪽을 살짝 가릴 듯 내려온 앞머리가 뺨을 감싸는 옆머리와 연결되어 있다. 길이는 어깨 밑까지, 허쉬컷에 가깝다.<br>${swatch('#28272C')}`,
+        jp: `目元を軽く隠すように下ろした前髪が、頬を包み込むようなサイドの髪と繋がっている。長さは肩の下まであり、ハッシュカットに近い。<br>${swatch('#28272C')}`,
+        en: `Bangs that fall to lightly cover her eyes connect seamlessly into side locks that frame her cheeks. The length reaches just below her shoulders, closer to a shag/hush cut.<br>${swatch('#28272C')}`
+      }
+    },
+    {
+      label:{ kr:'신체적 특징', jp:'身体的特徴', en:'Physical features' },
+      value:{
+        kr:'마른 편이지만 골격이 탄탄하게 잡혀 있어 슬림한 체형이다. 특히 하체 쪽의 비율과 라인이 유독 돋보이는 편.',
+        jp:'痩せ型ではあるが骨格がしっかりしており、スリムな体型をしている。特に下半身の比率とラインが際立って目を引くほうだ。',
+        en:'She is on the slender side, but with a well-defined frame that gives her a slim build. Her lower-body proportions and lines in particular stand out.'
+      }
+    },
+    {
+      label:{ kr:'평소 복장', jp:'普段の服装', en:'Everyday outfit' },
+      value:{
+        kr:'화려한 장식이나 원색은 배제하고, 블랙 앤 화이트의 무채색을 기반으로 한 단정하고 정갈한 스타일을 고수하는 편.',
+        jp:'派手な装飾や原色は避け、ブラック＆ホワイトの無彩色を基調とした、きちんとして端正なスタイルを貫いている。',
+        en:'She avoids flashy decoration or primary colors, sticking to a neat, tidy style built around a black-and-white, achromatic palette.'
+      }
+    }
+  ];
+
   // 현재 보고 있는 페이지
   const appPages = [
-    { id:'pageProfile', labelKey:'PROFILE' },
-    { id:'pagePast',    labelKey:'PAST' }
+    { id:'pageProfile',    labelKey:'PROFILE' },
+    { id:'pageAppearance', labelKey:'APPEARANCE' },
+    { id:'pagePast',       labelKey:'STORY' }
   ];
   let currentPageIndex = 0;
 
   /* ========================================================
      3. 렌더링
      ======================================================== */
+
+  function renderAppearance(lang) {
+    document.getElementById('appearanceLabel').textContent = 'APPEARANCE';
+
+    document.getElementById('appearanceList').innerHTML = appearanceFields.map(function (field) {
+      return `
+        <div class="detail-item">
+          <p class="detail-label">${field.label[lang] || ''}</p>
+          <p class="detail-value">${field.value[lang] || ''}</p>
+        </div>
+      `;
+    }).join('');
+  }
 
   function waveformBars(count) {
     let bars = '';
@@ -1184,7 +1262,7 @@
   }
 
   function renderPast(lang) {
-    document.getElementById('pastLabel').textContent = 'PAST';
+    document.getElementById('pastLabel').textContent = 'STORY';
 
     let sideStoryCounter = 0;
 
@@ -1343,6 +1421,7 @@
       }).join('');
 
     attachVoicePlayers();
+    renderAppearance(lang);
     renderPast(lang);
   }
 
